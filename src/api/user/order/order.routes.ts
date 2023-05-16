@@ -10,13 +10,11 @@ router.post('/', async (req: any, res: Response, next: NextFunction) => {
     const {
       item_id, // array
       note,
-      status,
     } = req.body;
 
     const order_id = await database(tableNames.order).insert({
       note,
-      status,
-      'costumer_id': req.costumer.id,
+      costumer_id: req.costumer.user.id,
     });
 
     const item_order = [];
