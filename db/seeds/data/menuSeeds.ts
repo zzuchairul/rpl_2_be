@@ -144,9 +144,4 @@ export default [
     item_id: 30,
     available: true,
   },
-  {
-    id: 31,
-    item_id: 31,
-    available: true,
-  },
 ];

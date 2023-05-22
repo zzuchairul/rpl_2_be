@@ -2,7 +2,7 @@ import express from "express";
 import compression from "compression";
 import helmet from "helmet";
 import morgan from "morgan";
-import path from 'path';
+import cors from 'cors';
 require('dotenv').config();
 
 import APIRequest from './api/api.routes.';
@@ -10,9 +10,11 @@ import { notFound } from "./middleware";
 
 const app = express();
 
+app.use(cors('*'));
 app.use(express.json());
 app.use(compression());
 app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan('dev'));
 app.use(express.static('public'));
 

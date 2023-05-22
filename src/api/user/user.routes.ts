@@ -8,7 +8,7 @@ import { verifyToken } from "../../middleware";
 const router = Router();
 
 router.use('/auth', AuthRoutes);
-router.use(verifyToken());
+// router.use(verifyToken());
 router.use('/item', ItemRoutes);
 router.use('/order', OrderRoutes);
 
