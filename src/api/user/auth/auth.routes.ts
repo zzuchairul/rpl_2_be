@@ -2,16 +2,23 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { sign, verify } from 'jsonwebtoken';
 require('dotenv').config();
 
+import database from '../../../db';
+import tableNames from '../../../constant/tableNames';
+
 const router = Router();
 
 router.post('/signin', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const {
-      table_id
+      table,
     } = req.body;
 
+    const costumer_id = await database(tableNames.costumer).insert({ table });
+    const costumer = await database(tableNames.costumer).select('*').where('id', costumer_id[0]).first();
+    console.log('costumer', costumer);
+
     const payload = {
-      table_id,
+      user: costumer,
       creted_at: Date.now()
     };
 
@@ -21,12 +28,13 @@ router.post('/signin', async (req: Request, res: Response, next: NextFunction) =
       { expiresIn: '30m' }
     );
 
-    return res.status(200).json({
+    console.log('done');
+    res.status(200).json({
       token,
       type: 'bearer'
     });
   } catch (error) {
-    return res.status(404).json(error);
+    res.status(404).json(error);
   }
 });
 
