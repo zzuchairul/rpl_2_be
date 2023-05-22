@@ -236,7 +236,7 @@ export default [
     name: 'Soda Riolo',
     price: 15000,
     desc: 'Soda Riolo',
-    image: 'Soda_Riolo.jpg',
+    image: 'Soda_Riolo.jpeg',
     type: 'minuman',
   },
   {
