@@ -2,6 +2,7 @@ import express from "express";
 import compression from "compression";
 import helmet from "helmet";
 import morgan from "morgan";
+import path from 'path';
 require('dotenv').config();
 
 import APIRequest from './api/api.routes.';
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(compression());
 app.use(helmet());
 app.use(morgan('dev'));
+app.use(express.static('public'));
 
 app.get('/', (req: express.Request, res: express.Response, next) => {
   res.status(200).send('API is running');
