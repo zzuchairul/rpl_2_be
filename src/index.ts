@@ -24,7 +24,7 @@ app.get('/', (req: express.Request, res: express.Response, next) => {
 
 app.use('/api', APIRequest);
 
-app.use(notFound);
+// app.use(notFound);
 
 const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {

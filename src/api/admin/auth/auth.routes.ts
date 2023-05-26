@@ -1,14 +1,28 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { sign, verify } from 'jsonwebtoken';
+import database from '../../../db';
+import tableNames from '../../../constant/tableNames';
 require('dotenv').config();
 
 const router = Router();
 
 router.post('/signin', async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const { username, password } = req.body;
+
+    const user = await database(tableNames.user).where({ username }).select('*').first();
+
+    if (!user || password !== user.password) {
+      return res.status(404).json({
+        status: 'FAIL',
+        message: 'Failed to Login'
+      });
+    }
+
+    delete user.password;
 
     const payload = {
-      'name': 'Iman',
+      user,
       creted_at: Date.now()
     };
 
@@ -40,5 +54,7 @@ router.get('/me', (req: Request, res: Response, next: NextFunction) => {
 
   return res.status(200).json({ data });
 });
+
+
 
 export default router;

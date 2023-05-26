@@ -6,4 +6,5 @@ export default {
   order: 'order',
   table: 'table',
   costumer: 'costumer',
+  user: 'user'
 };

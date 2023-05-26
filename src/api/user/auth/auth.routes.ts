@@ -15,11 +15,9 @@ router.post('/signin', async (req: Request, res: Response, next: NextFunction) =
 
     const costumer_id = await database(tableNames.costumer).insert({ table });
     const costumer = await database(tableNames.costumer).select('*').where('id', costumer_id[0]).first();
-    console.log('costumer', costumer);
 
     const payload = {
       user: costumer,
-      creted_at: Date.now()
     };
 
     const token = sign(
@@ -27,8 +25,6 @@ router.post('/signin', async (req: Request, res: Response, next: NextFunction) =
       process.env.JWT_SECRET as string,
       { expiresIn: '30m' }
     );
-
-    console.log('done');
     res.status(200).json({
       token,
       type: 'bearer'
