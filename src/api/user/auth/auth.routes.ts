@@ -25,9 +25,10 @@ router.post('/signin', async (req: Request, res: Response, next: NextFunction) =
       process.env.JWT_SECRET as string,
       { expiresIn: '30m' }
     );
+
     res.status(200).json({
       token,
-      type: 'bearer'
+      type: 'Bearer'
     });
   } catch (error) {
     res.status(404).json(error);
