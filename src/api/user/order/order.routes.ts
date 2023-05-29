@@ -26,7 +26,8 @@ router.post('/', async (req: any, res: Response, next: NextFunction) => {
       item_order.push(item_order_id);
     }
     return res.status(201).json({
-      status: 'OK'
+      status: 'OK',
+      orderId: order_id
     });
   } catch (error) {
     return res.status(400).json(error);

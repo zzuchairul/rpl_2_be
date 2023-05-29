@@ -23,7 +23,7 @@ router.post('/signin', async (req: Request, res: Response, next: NextFunction) =
     const token = sign(
       payload,
       process.env.JWT_SECRET as string,
-      { expiresIn: '30m' }
+      { expiresIn: '20m' }
     );
 
     res.status(200).json({
