@@ -11,7 +11,6 @@ export async function up(knex: Knex): Promise<void> {
       .foreign(`${tableNames.costumer}_id`)
       .references('id')
       .inTable(tableNames.costumer);
-
     table.string('status', 255).defaultTo('sedang diproses');
   });
 }

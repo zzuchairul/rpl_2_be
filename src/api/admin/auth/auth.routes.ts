@@ -8,7 +8,10 @@ const router = Router();
 
 router.post('/signin', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { username, password } = req.body;
+    const {
+      username,
+      password
+    } = req.body;
 
     const user = await database(tableNames.user).where({ username }).select('*').first();
 
@@ -34,7 +37,7 @@ router.post('/signin', async (req: Request, res: Response, next: NextFunction) =
 
     return res.status(200).json({
       token,
-      type: 'bearer'
+      type: 'Bearer'
     });
   } catch (error) {
     return res.status(404).json(error);

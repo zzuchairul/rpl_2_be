@@ -7,8 +7,62 @@ const router = Router();
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const order = await database(tableNames.order).select('*');
-    return res.status(200).json(order);
+    const { s } = req.query;
+    let orders: any[];
+    orders = await database('order')
+      .join('item_order', 'order.id', 'item_order.order_id')
+      .join('item', 'item_order.item_id', 'item.id')
+      .join('costumer', 'costumer.id', '=', 'order.costumer_id')
+      .select(
+        'order.id as order_id',
+        'order.create_at',
+        'order.note',
+        'order.costumer_id',
+        'order.status',
+        'item.id as item_id',
+        'item.title',
+        'item.price',
+        'item.desc',
+        // 'item.imageURL',
+        'item.category',
+        // 'item.qty',
+        'costumer.table AS costumerTable'
+      )
+    // .options({ nestTables: true, })
+
+    const data = [];
+
+    for (let i = 0; i < orders.length; i++) {
+      let order_id = orders[i].order_id;
+
+      const found = data.some(el => el.order_id === order_id)
+
+      if (!found) {
+        data.push({
+          order_id: orders[i].order_id,
+          created_at: orders[i].created_at,
+          note: orders[i].note,
+          costumer_id: orders[i].costumer_id,
+          costumerTable: orders[i].costumerTable,
+          status: orders[i].status,
+          items: [
+            {
+              id: orders[i].item_id,
+              title: orders[i].title,
+              price: orders[i].price,
+            }
+          ],
+        });
+      } else {
+        let index = data.findIndex(x => x.order_id === order_id)
+        data[index].items.push({
+          id: orders[i].item_id,
+          title: orders[i].title,
+          price: orders[i].price,
+        })
+      }
+    }
+    return res.status(200).json(data);
   } catch (error) {
     return res.status(400).json(error);
   }

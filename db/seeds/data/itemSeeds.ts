@@ -81,14 +81,6 @@ export default [
   },
   {
     id: 11,
-    title: 'Es Kopi Gula Aren',
-    price: 22000,
-    desc: 'Es Kopi Gula Aren',
-    imageURL: 'Es_Kopi_Gula_Aren.jpg',
-    category: 'minuman',
-  },
-  {
-    id: 12,
     title: 'Kopi Sulawesi Selatan',
     price: 20000,
     desc: 'Kopi Sulawesi Selatan',
@@ -96,7 +88,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 13,
+    id: 12,
     title: 'Kopi Nusantara',
     price: 25000,
     desc: 'Kopi Nusantara',
@@ -104,7 +96,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 14,
+    id: 13,
     title: 'Juice Jeruk',
     price: 17000,
     desc: 'Juice Jeruk',
@@ -112,7 +104,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 15,
+    id: 14,
     title: 'Juice Markisa',
     price: 18000,
     desc: 'Juice Markisa',
@@ -120,7 +112,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 16,
+    id: 15,
     title: 'Juice Semangka',
     price: 18000,
     desc: 'Juice Semangka',
@@ -128,7 +120,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 17,
+    id: 16,
     title: 'Juice Buah Naga',
     price: 20000,
     desc: 'Juice Buah Naga',
@@ -136,7 +128,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 18,
+    id: 17,
     title: 'Juice Alpukat',
     price: 22000,
     desc: 'Juice Alpukat',
@@ -144,7 +136,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 19,
+    id: 18,
     title: 'Teh Panas',
     price: 10000,
     desc: 'Teh Panas',
@@ -152,7 +144,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 20,
+    id: 19,
     title: 'Teh Dingin',
     price: 12000,
     desc: 'Teh Dingin',
@@ -160,7 +152,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 21,
+    id: 20,
     title: 'Teh Tarik Panas',
     price: 17000,
     desc: 'Teh Tarik Panas',
@@ -168,7 +160,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 22,
+    id: 21,
     title: 'Teh Tarik Dingin',
     price: 20000,
     desc: 'Teh Tarik Dingin',
@@ -176,7 +168,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 23,
+    id: 22,
     title: 'Green Tea Panas',
     price: 17000,
     desc: 'Green Tea Panas',
@@ -184,7 +176,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 24,
+    id: 23,
     title: 'Green Tea Dingin',
     price: 20000,
     desc: 'Green Tea Dingin',
@@ -192,7 +184,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 25,
+    id: 24,
     title: 'Lemon Tea Panas',
     price: 15000,
     desc: 'Lemon Tea Panas',
@@ -200,7 +192,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 26,
+    id: 25,
     title: 'Lemon Tea Dingin',
     price: 18000,
     desc: 'Lemon Tea Dingin',
@@ -208,7 +200,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 27,
+    id: 26,
     title: 'Cokelat Panas',
     price: 17000,
     desc: 'Cokelat Panas',
@@ -216,7 +208,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 28,
+    id: 27,
     title: 'Cokelat Dingin',
     price: 22000,
     desc: 'Cokelat Dingin',
@@ -224,7 +216,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 29,
+    id: 28,
     title: 'Soda Riolo',
     price: 15000,
     desc: 'Soda Riolo',
@@ -232,7 +224,7 @@ export default [
     category: 'minuman',
   },
   {
-    id: 30,
+    id: 29,
     title: 'Air Mineral',
     price: 5000,
     desc: 'Air Mineral',

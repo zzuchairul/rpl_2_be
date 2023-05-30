@@ -8,8 +8,8 @@ export async function seed(knex: Knex): Promise<void> {
   await knex(tableNames.item).del();
   await knex(tableNames.item).insert(itemSeeds);
 
-  await knex(tableNames.menu).del();
-  await knex(tableNames.menu).insert(menuSeeds);
+  // await knex(tableNames.menu).del();
+  // await knex(tableNames.menu).insert(menuSeeds);
 
   await knex(tableNames.user).del();
   await knex(tableNames.user).insert(userSeeds);
