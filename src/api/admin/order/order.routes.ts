@@ -26,7 +26,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
         // 'item.imageURL',
         'item.category',
         'item_order.qty',
-        'costumer.table AS costumerTable'
+        'costumer.table AS costumerTable',
       )
     // .options({ nestTables: true, })
 
@@ -40,7 +40,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
       if (!found) {
         data.push({
           order_id: orders[i].order_id,
-          created_at: orders[i].created_at,
+          create_at: orders[i].create_at,
           note: orders[i].note,
           costumer_id: orders[i].costumer_id,
           costumerTable: orders[i].costumerTable,
