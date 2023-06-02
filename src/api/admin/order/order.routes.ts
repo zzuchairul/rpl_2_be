@@ -25,7 +25,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
         'item.desc',
         // 'item.imageURL',
         'item.category',
-        // 'item.qty',
+        'item_order.qty',
         'costumer.table AS costumerTable'
       )
     // .options({ nestTables: true, })
@@ -50,6 +50,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
               id: orders[i].item_id,
               title: orders[i].title,
               price: orders[i].price,
+              qty: orders[i].qty
             }
           ],
         });
@@ -59,6 +60,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
           id: orders[i].item_id,
           title: orders[i].title,
           price: orders[i].price,
+          qty: orders[i].qty
         })
       }
     }
