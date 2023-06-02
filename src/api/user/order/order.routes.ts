@@ -8,8 +8,9 @@ const router = Router();
 router.post('/', async (req: any, res: Response, next: NextFunction) => {
   try {
     const {
-      item_id, // array
+      items_ids, // array
       note,
+      items_qtys
     } = req.body;
 
     const order_id = await database(tableNames.order).insert({
@@ -18,10 +19,11 @@ router.post('/', async (req: any, res: Response, next: NextFunction) => {
     });
 
     const item_order = [];
-    for (let i = 0; i < item_id.length; i++) {
+    for (let i = 0; i < items_ids.length; i++) {
       const item_order_id = await database(tableNames.item_order).insert({
-        'item_id': item_id[i],
-        order_id
+        'item_id': items_ids[i],
+        order_id,
+        'qty': items_qtys[i]
       });
       item_order.push(item_order_id);
     }
