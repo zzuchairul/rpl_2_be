@@ -13,6 +13,7 @@ export async function up(knex: Knex): Promise<void> {
       .foreign(`${tableNames.order}_id`)
       .references('id')
       .inTable(tableNames.order);
+    table.integer('qty');
   });
 }
 
