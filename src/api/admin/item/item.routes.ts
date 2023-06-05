@@ -2,7 +2,6 @@ import tableNames from '../../../constant/tableNames';
 import { NextFunction, Request, Response, Router } from 'express';
 import database from '../../../db';
 import { fail } from 'assert';
-import * as path from 'path';
 require('dotenv').config();
 
 const router = Router();
@@ -35,52 +34,75 @@ router.get('/:id', async (req: any, res: Response, next: NextFunction) => {
 });
 
 // Route add url '/' method: POST
-router.post('/done/:id', async (req: any, res: Response, next: NextFunction): Promise<void> => {
+router.post('/', async (req: any, res: Response, next: NextFunction) => {
   try {
-    if (req.files === null) {
-      res.status(400).json({ msg: 'No File Uploaded' });
-      return;
-    }
+    const { title, price, desc, category } = req.body;
 
-    const name = req.body.title;
-    const file: any | undefined = req.files?.file;
-    const fileSize = file.data.length;
-    const ext: string = path.extname(file.name);
-    const fileName: string = file.md5 + ext;
-    const { price, desc, type } = req.body;
-    // const url = `${req.protocol}://${req.get('host')}/images/${fileName}`;
-    const allowedType = ['.png', '.jpg', '.jpeg'];
+    await database(tableNames.item)
+      .insert({
+        title,
+        price,
+        category,
+        desc: desc ?? title
+      });
 
-    if (!allowedType.includes(ext.toLowerCase())) {
-      res.status(422).json({ msg: 'Invalid Images' });
-      return;
-    }
-    if (fileSize > 5000000) {
-      res.status(422).json({ msg: 'Image must be less than 5 MB' });
-      return;
-    }
-
-    file.mv(`./public/images/${fileName}`, async (err: any) => {
-      if (err) {
-        res.status(500).json({ msg: err.message });
-        return;
-      }
-      try {
-        const newData = {
-          name: name,
-          price: price,
-          desc: desc,
-          type: type,
-          image: fileName,
-        };
-        const item = await database(tableNames.item).insert(newData, '*');
-        res.status(201).json({ msg: 'Item Created Successfully' });
-      } catch (error) {
-        res.status(400).json({ msg: error });
-      }
+    return res.json({
+      status: 'OK'
     });
+
   } catch (error) {
-    res.status(400).json({ msg: error });
+    res.status(400).json(error);
+  }
+});
+
+router.post('/upload/:id', async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+
+    const item = await database(tableNames.item)
+      .where('id', id)
+      .first();
+
+    if (!item) {
+      return res.status(404).json({
+        status: 'FAIL',
+        message: 'No data!'
+      });
+    }
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send('No files were uploaded.');
+    }
+
+    const { image } = req.files;
+
+    const extFile: string = '.' + image.mimetype.split('/')[1]
+    const allowedExt = ['.jpg', '.png', 'jpeg'];
+
+    if (!allowedExt.includes(extFile.toLowerCase())) {
+      return res.status(422).json({
+        status: 'FAIL',
+        message: 'must be type of .png, .jpg, .jpeg'
+      });
+    }
+    const fileName: string = String(item.title) + extFile;
+    const uploadPath: string = __dirname + '../../../../../public/asset/image/menu';
+
+    // Use the mv() method to place the file somewhere on your server
+    image.mv(uploadPath + '/' + fileName, async (err) => {
+      if (err) return res.status(500).send(err);
+
+      await database(tableNames.item)
+        .where('id', id)
+        .update({
+          imageURL: fileName
+        });
+      return res.json({
+        status: 'OK'
+      });
+    })
+  } catch (error) {
+    res.status(400).json(error);
   }
 });
 
