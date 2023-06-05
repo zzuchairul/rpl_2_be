@@ -1,6 +1,7 @@
 import tableNames from '../../../constant/tableNames';
 import { NextFunction, Request, Response, Router } from 'express';
 import database from '../../../db';
+import { fail } from 'assert';
 require('dotenv').config();
 
 const router = Router();
@@ -35,7 +36,7 @@ router.get('/:id', async (req: any, res: Response, next: NextFunction) => {
 router.post('/delete/:id', async (req: any, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const item = await database(tableNames.item).where('id', id).del();
+    const item = await database(tableNames.item).where('id', id).del().catch(fail);
 
     if (!item) {
       return res.status(404).json({
