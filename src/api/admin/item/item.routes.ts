@@ -38,38 +38,6 @@ router.post('/', async (req: any, res: Response, next: NextFunction) => {
   try {
     const { title, price, desc, category } = req.body;
 
-    await database(tableNames.item)
-      .insert({
-        title,
-        price,
-        category,
-        desc: desc ?? title
-      });
-
-    return res.json({
-      status: 'OK'
-    });
-
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
-
-router.post('/upload/:id', async (req: any, res: Response, next: NextFunction) => {
-  try {
-    const { id } = req.params;
-
-    const item = await database(tableNames.item)
-      .where('id', id)
-      .first();
-
-    if (!item) {
-      return res.status(404).json({
-        status: 'FAIL',
-        message: 'No data!'
-      });
-    }
-
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send('No files were uploaded.');
     }
@@ -85,16 +53,19 @@ router.post('/upload/:id', async (req: any, res: Response, next: NextFunction) =
         message: 'must be type of .png, .jpg, .jpeg'
       });
     }
-    const fileName: string = String(item.title) + extFile;
+
+    const fileName: string = String(title) + extFile;
     const uploadPath: string = __dirname + '../../../../../public/asset/image/menu';
 
-    // Use the mv() method to place the file somewhere on your server
     image.mv(uploadPath + '/' + fileName, async (err) => {
       if (err) return res.status(500).send(err);
 
       await database(tableNames.item)
-        .where('id', id)
-        .update({
+        .insert({
+          title,
+          price,
+          category,
+          desc: desc ?? title,
           imageURL: fileName
         });
       return res.json({

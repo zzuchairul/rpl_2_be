@@ -13,6 +13,7 @@ const app = express();
 
 app.use(cors('*'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(upload());
 app.use(compression());
 app.use(helmet());
@@ -20,8 +21,8 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan('dev'));
 app.use(express.static('public'));
 
-app.get('/', (req: express.Request, res: express.Response, next) => {
-  res.status(200).send('API is running');
+app.post('/', (req: express.Request, res: express.Response, next) => {
+  res.status(200).json(req.body);
 });
 
 app.use('/api', APIRequest);
