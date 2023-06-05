@@ -54,7 +54,22 @@ router.post('/delete/:id', async (req: any, res: Response, next: NextFunction) =
 
 router.post('/update/:id', async (req: any, res: Response, next: NextFunction) => {
   try {
+    const { id } = req.params
 
+    const data = await database(tableNames.item)
+      .where('id', id)
+      .update(req.body)
+
+    if (!data) {
+      return res.status(404).json({
+        status: 'FAIL',
+        message: 'no data'
+      });
+    }
+
+    return res.status(200).json({
+      status: 'OK'
+    })
   } catch (error) {
     return res.status(400).json(error);
   }
