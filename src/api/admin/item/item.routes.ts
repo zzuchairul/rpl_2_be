@@ -33,6 +33,8 @@ router.get('/:id', async (req: any, res: Response, next: NextFunction) => {
   }
 });
 
+// Route add url '/' method: POST
+
 router.post('/delete/:id', async (req: any, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
