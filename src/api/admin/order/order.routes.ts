@@ -2,33 +2,71 @@ import { NextFunction, Request, Response, Router } from "express";
 
 import database from '../../../db';
 import tableNames from "../../../constant/tableNames";
+import { subDays, subMonths, subWeeks, subYears } from 'date-fns';
 
 const router = Router();
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { s } = req.query;
+    const { status, qDate } = req.query;
     let orders: any[];
-    orders = await database('order')
-      .join('item_order', 'order.id', 'item_order.order_id')
-      .join('item', 'item_order.item_id', 'item.id')
-      .join('costumer', 'costumer.id', '=', 'order.costumer_id')
-      .select(
-        'order.id as order_id',
-        'order.create_at',
-        'order.note',
-        'order.costumer_id',
-        'order.status',
-        'item.id as item_id',
-        'item.title',
-        'item.price',
-        'item.desc',
-        // 'item.imageURL',
-        'item.category',
-        'item_order.qty',
-        'costumer.table AS costumerTable',
-      )
-    // .options({ nestTables: true, })
+
+    const date = new Date();
+    let passDate: string;
+    if (qDate === 'today') {
+      passDate = subDays(date, 1).toLocaleDateString('en-CA');
+    } else if (qDate === 'week') {
+      passDate = subWeeks(date, 1).toLocaleDateString('en-CA');
+    } else if (qDate === 'month') {
+      passDate = subMonths(date, 1).toLocaleDateString('en-CA');
+    } else {
+      passDate = subYears(date, 10).toLocaleDateString('en-CA');
+    }
+
+    if (status) {
+      orders = await database('order')
+        .where('status', status)
+        .whereRaw('DATE(create_at) <= ?', [date])
+        .whereRaw('DATE(create_at) >= ?', [passDate])
+        .join('item_order', 'order.id', 'item_order.order_id')
+        .join('item', 'item_order.item_id', 'item.id')
+        .join('costumer', 'costumer.id', '=', 'order.costumer_id')
+        .select(
+          'order.id as order_id',
+          'order.create_at',
+          'order.note',
+          'order.costumer_id',
+          'order.status',
+          'item.id as item_id',
+          'item.title',
+          'item.price',
+          'item.desc',
+          'item.category',
+          'item_order.qty',
+          'costumer.table AS costumerTable',
+        )
+    } else {
+      orders = await database('order')
+        .whereRaw('DATE(order.create_at) <= ?', [date])
+        .whereRaw('DATE(order.create_at) >= ?', [passDate])
+        .join('item_order', 'order.id', 'item_order.order_id')
+        .join('item', 'item_order.item_id', 'item.id')
+        .join('costumer', 'costumer.id', '=', 'order.costumer_id')
+        .select(
+          'order.id as order_id',
+          'order.create_at',
+          'order.note',
+          'order.costumer_id',
+          'order.status',
+          'item.id as item_id',
+          'item.title',
+          'item.price',
+          'item.desc',
+          'item.category',
+          'item_order.qty',
+          'costumer.table AS costumerTable',
+        )
+    }
 
     const data = [];
 

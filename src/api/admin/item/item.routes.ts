@@ -8,7 +8,15 @@ const router = Router();
 
 router.get('/', async (req: any, res: Response, next: NextFunction) => {
   try {
-    const item = await database(tableNames.item).select('*');
+    const { available } = req.query;
+    let item: any[];
+
+    if (available || available === 0) {
+      item = await database(tableNames.item).select('*').where('available', Number(available));
+    } else {
+      item = await database(tableNames.item).select('*');
+    }
+
     return res.status(200).json(item);
   } catch (error) {
     return res.status(400).json(error);
@@ -77,19 +85,15 @@ router.post('/', async (req: any, res: Response, next: NextFunction) => {
   }
 });
 
-router.post('/delete/:id', async (req: any, res: Response, next: NextFunction) => {
+router.post('/inactive/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const item = await database(tableNames.item).where('id', id).del().catch(fail);
+    await database(tableNames.item).where('id', id)
+      .update({
+        available: 0
+      })
 
-    if (!item) {
-      return res.status(404).json({
-        status: 'FAIL',
-        message: 'no data'
-      });
-    }
-
-    return res.status(200).json({
+    return res.status(201).json({
       status: 'OK'
     });
   } catch (error) {
