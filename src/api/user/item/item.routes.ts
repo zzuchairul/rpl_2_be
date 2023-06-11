@@ -7,7 +7,9 @@ const router = Router();
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const item = await database(tableNames.item).select('*');
+    const item = await database(tableNames.item)
+      .select('*')
+      .where('available', 1)
     return res.status(200).json(item);
   } catch (error) {
     return res.status(400).json(error);
